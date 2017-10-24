@@ -164,6 +164,10 @@ const VideoListenerMixin = {
         }
     },
 
+    stalled () {
+        this.setState(STATE_STALLED);
+    },
+
     waiting () {
         this.setState(STATE_BUFFERING);
     },
