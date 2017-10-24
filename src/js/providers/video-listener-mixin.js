@@ -1,4 +1,4 @@
-import { STATE_IDLE, STATE_COMPLETE, STATE_STALLED, STATE_LOADING, STATE_PLAYING, STATE_PAUSED,
+import { STATE_BUFFERING, STATE_IDLE, STATE_COMPLETE, STATE_STALLED, STATE_LOADING, STATE_PLAYING, STATE_PAUSED,
     PROVIDER_FIRST_FRAME, CLICK, MEDIA_BUFFER_FULL, MEDIA_RATE_CHANGE, MEDIA_ERROR,
     MEDIA_BUFFER, MEDIA_META, MEDIA_TIME, MEDIA_SEEKED, MEDIA_VOLUME, MEDIA_MUTE, MEDIA_COMPLETE
 } from 'events/events';
@@ -56,7 +56,8 @@ const VideoListenerMixin = {
             return;
         }
 
-        if (!this.video.paused && (this.state === STATE_STALLED || this.state === STATE_LOADING)) {
+        if (!this.video.paused
+            && (this.state === STATE_STALLED || this.state === STATE_LOADING || this.state === STATE_BUFFERING)) {
             this.startStallCheck();
             this.setState(STATE_PLAYING);
         }
@@ -162,6 +163,11 @@ const VideoListenerMixin = {
             this.setTextTracks(this.video.textTracks);
         }
     },
+
+    waiting () {
+        this.setState(STATE_BUFFERING);
+    },
+
     error() {
         var code = (this.video.error && this.video.error.code) || -1;
         var message = ({
