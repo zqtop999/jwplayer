@@ -808,7 +808,6 @@ Object.assign(Controller.prototype, {
         // View passthroughs
         this.resize = _view.resize;
         this.getSafeRegion = _view.getSafeRegion;
-        this.setCues = _view.addCues;
         this.setCaptions = _view.setCaptions;
 
         this.checkBeforePlay = function() {
@@ -821,6 +820,10 @@ Object.assign(Controller.prototype, {
             }
             _model.set('controls', mode);
             _programController.controls = mode;
+        };
+
+        this.setCues = function (cues) {
+            _model.set('cues', cues);
         };
 
         this.playerDestroy = function () {
