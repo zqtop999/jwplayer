@@ -1,10 +1,14 @@
 import SimpleModel from 'model/simplemodel';
+import { PLAYER_STATE } from 'events/events';
 
 class SimpleModelExtendable {}
 SimpleModelExtendable.prototype = Object.assign({}, SimpleModel);
 
 function dispatchDiffChangeEvents(viewModel, newAttributes, oldAttributes) {
     Object.keys(newAttributes).forEach((attr) => {
+        if (attr === PLAYER_STATE) {
+            return;
+        }
         if (!newAttributes[attr] !== oldAttributes[attr]) {
             viewModel.trigger(`change:${attr}`, viewModel, newAttributes[attr], oldAttributes[attr]);
         }
@@ -42,6 +46,9 @@ export default class ViewModel extends SimpleModelExtendable {
         this._mediaModel = mediaModel;
 
         mediaModel.on('all', (type, objectOrEvent, value, previousValue) => {
+            if (type === `change:${PLAYER_STATE}`) {
+                return;
+            }
             this.trigger(type, objectOrEvent, value, previousValue);
         }, this);
 
@@ -78,7 +85,7 @@ export default class ViewModel extends SimpleModelExtendable {
 
     get(attr) {
         const mediaModel = this._mediaModel;
-        if (mediaModel && attr in mediaModel.attributes) {
+        if (attr !== PLAYER_STATE && mediaModel && attr in mediaModel.attributes) {
             return mediaModel.get(attr);
         }
         const instreamModel = this._instreamModel;
