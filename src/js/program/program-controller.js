@@ -297,7 +297,7 @@ export default class ProgramController {
             return;
         }
 
-        mediaController.currentQuality = parseInt(index, 10) || 0;
+        mediaController.quality = parseInt(index, 10) || 0;
     }
 
     set subtitles(index) {
