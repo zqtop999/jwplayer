@@ -56,6 +56,8 @@ export default class ViewModel extends SimpleModelExtendable {
 
         this._instreamModel = instreamModel;
 
+        this.trigger('instreamMode', !!instreamModel);
+
         if (instreamModel) {
             instreamModel.on('all', (type, objectOrEvent, value, previousValue) => {
                 this.trigger(type, objectOrEvent, value, previousValue);
