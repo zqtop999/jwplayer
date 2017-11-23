@@ -53,7 +53,6 @@ const CaptionsRenderer = function (_model) {
         _currentCues = [];
         _captionsTrack = captions;
         if (!captions) {
-            _currentCues = [];
             this.renderCues();
             return;
         }
@@ -73,7 +72,7 @@ const CaptionsRenderer = function (_model) {
     };
 
     this.selectCues = function (track, timeEvent) {
-        if (!track || !track.data || !timeEvent) {
+        if (!track || !track.data || !timeEvent || _model.get('renderCaptionsNatively')) {
             return;
         }
 
@@ -166,7 +165,10 @@ const CaptionsRenderer = function (_model) {
         _captionsWindow.appendChild(_textContainer);
         _display.appendChild(_captionsWindow);
 
-        this.populate(_model.get('captionsTrack'));
+        _model.change('captionsTrack', function (model, captionsTrack) {
+            this.populate(captionsTrack);
+        }, this);
+
         _model.set('captions', _options);
     };
 
@@ -293,14 +295,10 @@ const CaptionsRenderer = function (_model) {
         }
     }
 
-    function _timeChange(e) {
-        if (_model.get('renderCaptionsNatively')) {
-            return;
-        }
-
+    const _timeChange = (e) => {
         _timeEvent = e;
         this.selectCues(_captionsTrack, _timeEvent);
-    }
+    };
 
     function _captionsListHandler(model, captionsList) {
         if (captionsList.length === 1) {
@@ -331,15 +329,12 @@ const CaptionsRenderer = function (_model) {
         _currentCues = [];
     }, this);
 
-    _model.on('change:captionsTrack', function (model, captionsTrack) {
-        this.populate(captionsTrack);
-    }, this);
-
-    _model.on('seek', function () {
+    _model.on('seek', function (e) {
         _currentCues = [];
+        _timeChange(e);
     }, this);
 
-    _model.on('time seek', _timeChange, this);
+    _model.on('time', _timeChange, this);
 
     _model.on('subtitlesTrackData', function () {
         // update captions after a provider's subtitle track changes
