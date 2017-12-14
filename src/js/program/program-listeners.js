@@ -85,6 +85,9 @@ export function ProviderListener(mediaController) {
 export function MediaControllerListener(model, programController) {
     return function (type, data) {
         switch (type) {
+            case 'bandwidthEstimate':
+                model.set(type, data[type]);
+                break;
             case 'flashThrottle': {
                 const throttled = (data.state !== 'resume');
                 model.set('flashThrottle', throttled);
