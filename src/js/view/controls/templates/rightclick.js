@@ -18,10 +18,14 @@ const rightClickItem = (link = '', title = '', featured, showLogo) => {
 
     let content;
     if (link.name) {
-        content = `<span data-jw-name="${link.name}" class="jw-rightclick-link jw-reset">${logo}${title}</span>`;
+        content = itemContent('span', `data-jw-name="${link.name}"`, logo, title);
     } else {
-        content = `<a href="${link}" class="jw-rightclick-link jw-reset" target="_blank">${logo}${title}</a>`;
+        content = itemContent('a', `href="${link}" target="_blank"`, logo, title);
     }
 
     return `<li class="jw-reset jw-rightclick-item ${featured ? 'jw-featured' : ''}">${content}</li>`;
+};
+
+const itemContent = (tagType, attributes, logo, title) => {
+    return `<${tagType} ${attributes} class="jw-rightclick-link jw-reset">${logo}${title}</${tagType}>`;
 };
