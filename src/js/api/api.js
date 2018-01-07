@@ -536,14 +536,6 @@ export default function Api(element) {
         },
 
         /**
-         * Gets information about the network connection and media streaming bandwidth estimate
-         * @returns {NetworkInfo}
-         */
-        getNetworkInfo() {
-            return core.getNetworkInfo();
-        },
-
-        /**
          * Gets the player's volume level.
          * @returns {number} A number from 0-100.
          */
