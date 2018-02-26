@@ -41,20 +41,10 @@ const compileConstants = {
     __FLASH_VERSION__: flashVersion
 };
 
-const uglifyJsOptions = {
-    screwIE8: true,
-    stats: true,
-    mangle: {
-        toplevel: true,
-        eval: true,
-        except: ['export', 'require']
-    },
-    sourceMap: true
-};
-
 const multiConfig = [
     {
         name: 'debug',
+        mode: 'development',
         output: {
             path: `${__dirname}/bin-debug/`,
             filename: '[name].js',
@@ -76,6 +66,7 @@ const multiConfig = [
     },
     {
         name: 'release',
+        mode: 'production',
         output: {
             path: `${__dirname}/bin-release/`,
             filename: '[name].js',
@@ -88,7 +79,6 @@ const multiConfig = [
         watch: false,
         plugins: [
             new webpack.DefinePlugin(compileConstants),
-            new webpack.optimize.UglifyJsPlugin(uglifyJsOptions),
             new webpack.BannerPlugin(bannerOptions)
         ]
     }
@@ -96,6 +86,9 @@ const multiConfig = [
     Object.assign({}, configuration, {
         entry: {
             jwplayer: './src/js/jwplayer.js'
+        },
+        optimization: {
+            splitChunks: false
         },
         stats: {
             timings: true
@@ -127,14 +120,15 @@ const multiConfig = [
                 },
                 {
                     test: /\.js$/,
-                    loader: 'babel-loader',
                     exclude: /node_modules/,
+                    loader: 'babel-loader',
                     options: {
                         babelrc: false,
                         presets: [
-                            ['es2015']
+                            ['env']
                         ],
                         plugins: [
+                            'syntax-dynamic-import',
                             'transform-object-assign'
                         ]
                     }
