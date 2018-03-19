@@ -68,6 +68,10 @@ module.exports = function(config) {
 
         customLaunchers: require('./test/karma/browserstack-launchers'),
 
+        sauceLabs: {
+            testName: 'Opensource Unit Tests'
+        },
+
         browserStack: {
             username: env.BS_USERNAME,
             accessKey: env.BS_AUTHKEY,

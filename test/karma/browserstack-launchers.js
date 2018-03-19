@@ -1,30 +1,33 @@
 module.exports = {
-    firefox: {
-        base: 'BrowserStack',
-        browser: 'firefox',
-        os: 'OS X',
-        os_version: 'Yosemite'
-    },
-
     chrome: {
-        base: 'BrowserStack',
-        browser: 'chrome',
-        os: 'OS X',
-        os_version: 'Yosemite'
+        base: 'SauceLabs',
+            browserName: 'chrome',
+            platform: 'Windows 7',
+            version: '35'
     },
-
-    ie11_windows: {
-        base: 'BrowserStack',
-        browser: 'ie',
-        browser_version: '11.0',
-        os: 'Windows',
-        os_version: '7'
+    firefox: {
+        base: 'SauceLabs',
+            browserName: 'firefox',
+            version: '30'
     },
-
-    edge: {
-        base: 'BrowserStack',
-        browser: 'edge',
-        os: 'Windows',
-        os_version: '10'
-    }
+    // sl_ios_safari: {
+    //     base: 'SauceLabs',
+    //         browserName: 'iphone',
+    //         platform: 'OS X 10.9',
+    //         version: '7.1'
+    // },
+    // sl_ie_11: {
+    //     base: 'SauceLabs',
+    //         browserName: 'internet explorer',
+    //         platform: 'Windows 8.1',
+    //         version: '11'
+    // },
+    // sl_android: {
+    //     base: 'SauceLabs',
+    //         browserName: 'Browser',
+    //         platform: 'Android',
+    //         version: '4.4',
+    //         deviceName: 'Samsung Galaxy S3 Emulator',
+    //         deviceOrientation: 'portrait'
+    // }
 };
