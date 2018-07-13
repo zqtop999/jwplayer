@@ -1,4 +1,4 @@
-import { Browser } from 'environment/environment';
+import { Browser, OS } from 'environment/environment';
 import { chunkLoadErrorHandler } from '../api/core-loader';
 import Events from 'utils/backbone.events';
 import { ERROR } from 'events/events';
