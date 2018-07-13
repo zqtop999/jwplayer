@@ -213,7 +213,7 @@ const CaptionsRenderer = function (viewModel) {
 
         const fontSize = Math.round(height * _fontScale);
 
-        if (_model.get('renderCaptionsNatively')) {
+        if (_model.get('renderCaptionsNatively') && (!OS.iOS && !Browser.safari)) {
             _setShadowDOMFontSize(_model.get('id'), fontSize);
         } else {
             style(_display, {
