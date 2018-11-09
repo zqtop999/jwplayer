@@ -23,6 +23,21 @@ const codeToLang = {
     el: 'Greek',
 };
 
+const rtlLangs = [
+    'ar',
+    'arc',
+    'dv',
+    'fa',
+    'ha',
+    'he',
+    'khw',
+    'ks',
+    'ku',
+    'ps',
+    'ur',
+    'yi',
+];
+
 const langToCode = invert(codeToLang);
 
 function normalizeLanguageCode(language) {
@@ -35,7 +50,7 @@ function normalizeLanguageAndCountryCode(language) {
     return language.toLowerCase().replace('-', '_');
 }
 
-function normalizeIntl(intl) {
+export function normalizeIntl(intl) {
     // Country codes are generally seen in upper case, but we have yet to find documentation confirming that this is the standard.
     return Object.keys(intl).reduce((obj, key) => {
         obj[normalizeLanguageAndCountryCode(key)] = intl[key];
@@ -76,6 +91,10 @@ export function getLanguage() {
     return language || navigator.language || 'en';
 }
 
+export function isRtl(lang) {
+    return rtlLangs.indexOf(normalizeLanguageCode(lang)) > -1;
+}
+
 export const translatedLanguageCodes = ['ar', 'da', 'de', 'es', 'fr', 'it', 'ja', 'nl', 'no', 'pt', 'ro', 'sv', 'tr', 'zh'];
 
 export function isTranslationAvailable(language) {
@@ -83,8 +102,11 @@ export function isTranslationAvailable(language) {
 }
 
 export function getCustomLocalization(localization, intl, languageAndCountryCode) {
-    intl = normalizeIntl(intl);
     return Object.assign({}, localization, intl[normalizeLanguageCode(languageAndCountryCode)], intl[normalizeLanguageAndCountryCode(languageAndCountryCode)]);
+}
+
+export function isInIntl(intl, language) {
+    return intl[normalizeLanguageCode(language)] || intl[normalizeLanguageAndCountryCode(language)];
 }
 
 export function isLocalizationComplete(customLocalization) {
