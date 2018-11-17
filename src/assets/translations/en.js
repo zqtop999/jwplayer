@@ -26,6 +26,7 @@ export default {
         technicalError: 'This video cannot be played because of a technical error.'
     },
     fullscreen: 'Fullscreen',
+    exitFullscreen: 'Exit Fullscreen',
     hd: 'Quality',
     liveBroadcast: 'Live',
     logo: 'Logo',
